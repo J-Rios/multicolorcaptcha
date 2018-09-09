@@ -271,7 +271,8 @@ class CaptchaGenerator:
         if ADD_NOISE:
             self.add_rand_noise_to_image(image, 200)
         # Return the generated image
-        return image
+        generated_captcha = {"image": image, "character": character}
+        return generated_captcha
 
 
     def gen_captcha_image(self, multicolor=False):
@@ -282,13 +283,16 @@ class CaptchaGenerator:
         # Generate 4 one-character images with a random char color in contrast to the generated 
         # background, a random font and font size, and random position-rotation
         one_char_images = []
+        image_characters = ""
         for _ in range(0, 4):
             # Generate a RGB background color for each iteration if multicolor enabled
             if multicolor:
                 image_background = self.gen_rand_color()
             # Generate a random character, a random character color in contrast to background 
             # and a random position for it
-            image = self.gen_captcha_char_image(self.one_char_image_size, image_background)
+            captcha = self.gen_captcha_char_image(self.one_char_image_size, image_background)
+            image = captcha["image"]
+            image_characters = image_characters + captcha["character"]
             # Add the generated image to the list
             one_char_images.append(image)
         # Join the 4 characters images into one
@@ -299,4 +303,5 @@ class CaptchaGenerator:
         for _ in range(0, 10):
             self.add_rand_circle_to_image(image, 10, 20)
         # Return generated image captcha
-        return image
+        generated_captcha = {"image": image, "characters": image_characters}
+        return generated_captcha

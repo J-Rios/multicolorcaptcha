@@ -7,6 +7,9 @@ from os import path, makedirs
 
 ####################################################################################################
 
+# Path to generate Captchas
+GEN_CAPTCHAS_FOLDER = "./captchas"
+
 # Captcha image height
 CAPCTHA_SIZE = (160, 160)
 
@@ -19,12 +22,16 @@ def main():
     # Create Captcha Generator object of specified size
     CaptchaGen = CaptchaGenerator(CAPCTHA_SIZE)
     # If it doesn't exists, create captchas folder to store generated captchas
-    if not path.exists("./captchas"):
-        makedirs("./captchas")
+    if not path.exists(GEN_CAPTCHAS_FOLDER):
+        makedirs(GEN_CAPTCHAS_FOLDER)
     # Generate 100 captchas
     for i in range(0, 100):
-        image = CaptchaGen.gen_captcha_image(True) # Remove True to generate one color background
-        image.save("./captchas/{}.png".format(str(i)), "png")
+        captcha = CaptchaGen.gen_captcha_image(True) # Remove True to generate one color background
+        image = captcha["image"]
+        characters = captcha["characters"]
+        print("Generated captcha {}: {}".format(str(i+1), characters))
+        image.save("{}/{}.png".format(GEN_CAPTCHAS_FOLDER, str(i+1)), "png")
+    print("Process completed. Check captchas images at \"{}\" folder.".format(GEN_CAPTCHAS_FOLDER))
 
 
 if __name__ == '__main__':
