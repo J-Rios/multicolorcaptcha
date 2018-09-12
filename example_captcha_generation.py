@@ -25,8 +25,12 @@ def main():
     if not path.exists(GEN_CAPTCHAS_FOLDER):
         makedirs(GEN_CAPTCHAS_FOLDER)
     # Generate 100 captchas
-    for i in range(0, 100):
-        captcha = CaptchaGen.gen_captcha_image(True) # Remove True to generate one color background
+    for i in range(0, 10):
+        # Use one of the following 4 captcha generation options
+        captcha = CaptchaGen.gen_captcha_image()
+        #captcha = CaptchaGen.gen_captcha_image(multicolor=False, margin=False)
+        #captcha = CaptchaGen.gen_captcha_image(multicolor=True, margin=False)
+        #captcha = CaptchaGen.gen_captcha_image(multicolor=True, margin=True)
         image = captcha["image"]
         characters = captcha["characters"]
         print("Generated captcha {}: {}".format(str(i+1), characters))

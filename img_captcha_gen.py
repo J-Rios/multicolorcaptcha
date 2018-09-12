@@ -11,7 +11,7 @@ Creation date:
 Last modified date:
     12/09/2017
 Version:
-    1.0.1
+    1.0.2
 """
 
 ####################################################################################################
@@ -60,9 +60,9 @@ class CaptchaGenerator:
         elif captcha_size_num >= len(CAPTCHA_SIZE):
             captcha_size_num = len(CAPTCHA_SIZE) - 1
         # Get captcha size
-        captcha_size = CAPTCHA_SIZE[captcha_size_num]
+        self.captcha_size = CAPTCHA_SIZE[captcha_size_num]
         # Determine one char image height
-        fourth_size = captcha_size[0] / 4
+        fourth_size = self.captcha_size[0] / 4
         if fourth_size - int(fourth_size) <= 0.5:
             fourth_size = int(fourth_size)
         else:
@@ -302,7 +302,7 @@ class CaptchaGenerator:
         return generated_captcha
 
 
-    def gen_captcha_image(self, multicolor=False):
+    def gen_captcha_image(self, multicolor=False, margin=True):
         '''Generate an image captcha.'''
         # Generate a RGB background color if the multicolor is disabled
         if not multicolor:
@@ -330,6 +330,11 @@ class CaptchaGenerator:
         for _ in range(0, 10):
             self.add_rand_circle_to_image(image, int(0.05*self.one_char_image_size[0]), \
                                           int(0.15*self.one_char_image_size[1]))
+        # Add horizontal margins
+        if margin:
+            new_image = Image.new('RGBA', self.captcha_size, "rgb(0, 0, 0)")
+            new_image.paste(image, (0, int((self.captcha_size[1]/2) - (image.height/2))))
+            image = new_image
         # Return generated image captcha
         generated_captcha = {"image": image, "characters": image_characters}
         return generated_captcha
