@@ -10,8 +10,8 @@ from os import path, makedirs
 # Path to generate Captchas
 GEN_CAPTCHAS_FOLDER = "./captchas"
 
-# Captcha image height
-CAPCTHA_SIZE = (160, 160)
+# Captcha image size number (2 -> 640x360)
+CAPCTHA_SIZE_NUM = 2
 
 ####################################################################################################
 
@@ -20,7 +20,7 @@ CAPCTHA_SIZE = (160, 160)
 def main():
     '''Main Function'''
     # Create Captcha Generator object of specified size
-    CaptchaGen = CaptchaGenerator(CAPCTHA_SIZE)
+    CaptchaGen = CaptchaGenerator(CAPCTHA_SIZE_NUM)
     # If it doesn't exists, create captchas folder to store generated captchas
     if not path.exists(GEN_CAPTCHAS_FOLDER):
         makedirs(GEN_CAPTCHAS_FOLDER)
