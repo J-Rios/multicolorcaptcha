@@ -35,3 +35,15 @@ Monocolor Background Captchas:
 Multicolor Background Captchas:
 
 ![Multicolor Captcha](https://github.com/J-Rios/multicolor-captcha-generator/raw/master/images/Multicolor_Background.png)
+
+
+
+ASCII Captchas:
+
+![Multicolor Captcha](https://github.com/J-Rios/multicolor-captcha-generator/raw/master/images/Ascii.png)
+
+
+
+Modificable Difficult Level Captchas:
+
+![Multicolor Captcha](https://github.com/J-Rios/multicolor-captcha-generator/raw/master/images/Max_Complex.png)

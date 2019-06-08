@@ -1,4 +1,5 @@
-# coding: utf-8
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
 ####################################################################################################
 
@@ -24,13 +25,18 @@ def main():
     # If it doesn't exists, create captchas folder to store generated captchas
     if not path.exists(GEN_CAPTCHAS_FOLDER):
         makedirs(GEN_CAPTCHAS_FOLDER)
-    # Generate 100 captchas
-    for i in range(0, 10):
-        # Use one of the following 4 captcha generation options
-        captcha = CaptchaGen.gen_captcha_image()
+    # Generate 20 captchas
+    for i in range(0, 20):
+        # Use one of the following 9 captcha generation options
+        #captcha = CaptchaGen.gen_captcha_image()
         #captcha = CaptchaGen.gen_captcha_image(multicolor=False, margin=False)
         #captcha = CaptchaGen.gen_captcha_image(multicolor=True, margin=False)
         #captcha = CaptchaGen.gen_captcha_image(multicolor=True, margin=True)
+        captcha = CaptchaGen.gen_captcha_image(difficult_level=3)
+        #captcha = CaptchaGen.gen_captcha_image(difficult_level=4)
+        #captcha = CaptchaGen.gen_captcha_image(chars_mode="hex")
+        #captcha = CaptchaGen.gen_captcha_image(chars_mode="ascii")
+        #captcha = CaptchaGen.gen_captcha_image(difficult_level=5, multicolor=True, chars_mode="ascii")
         image = captcha["image"]
         characters = captcha["characters"]
         print("Generated captcha {}: {}".format(str(i+1), characters))
