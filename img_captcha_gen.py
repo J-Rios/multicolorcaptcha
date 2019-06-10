@@ -11,24 +11,28 @@ Author:
 Creation date:
     08/09/2018
 Last modified date:
-    08/06/2019
+    10/06/2019
 Version:
-    1.1.0
+    1.1.1
 """
 
 ####################################################################################################
 
 # Modules Imports #
 
-from PIL import Image, ImageFont, ImageDraw
+from os import path
 from random import randint, choice
+from PIL import Image, ImageFont, ImageDraw
 
 ####################################################################################################
 
 # Constants #
 
+# Actual constant.py full path
+SCRIPT_PATH = path.dirname(path.realpath(__file__))
+
 # Fonts directory and list of used fonts files
-FONTS_PATH = "./fonts/freefont-20120503"
+FONTS_PATH = SCRIPT_PATH + "/fonts/freefont-20120503"
 l_fonts = ["FreeMono.ttf", "FreeMonoBold.ttf", "FreeMonoOblique.ttf", "FreeSans.ttf", \
            "FreeSansBold.ttf", "FreeSansOblique.ttf", "FreeSerif.ttf", "FreeSerifBold.ttf", \
            "FreeSerifItalic.ttf", "FreeMonoBold.ttf"]
@@ -320,7 +324,7 @@ class CaptchaGenerator:
         return generated_captcha
 
 
-    def gen_captcha_image(self, difficult_level=1, chars_mode="nums", multicolor=False, \
+    def gen_captcha_image(self, difficult_level=2, chars_mode="nums", multicolor=False, \
             margin=True):
         '''Generate an image captcha.'''
         # Limit difficult level argument if out of expected range
