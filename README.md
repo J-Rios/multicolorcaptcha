@@ -13,7 +13,7 @@ apt-get install libtiff5-dev libjpeg8-dev zlib1g-dev libfreetype6-dev liblcms2-d
 
 2. Install Pillow:
 ```
-pip install Pillow --upgrade
+pip install -r requirements.txt
 ```
 
 3. Get the library and try example script:
