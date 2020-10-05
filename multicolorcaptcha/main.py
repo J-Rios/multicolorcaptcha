@@ -3,7 +3,7 @@
 
 ####################################################################################################
 
-from img_captcha_gen import CaptchaGenerator
+from .generator import CaptchaGenerator
 from os import path, makedirs
 
 ####################################################################################################
@@ -18,7 +18,7 @@ CAPCTHA_SIZE_NUM = 2
 
 # Main Function #
 
-def main():
+def demo():
     '''Main Function'''
     # Create Captcha Generator object of specified size
     CaptchaGen = CaptchaGenerator(CAPCTHA_SIZE_NUM)
@@ -45,4 +45,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    demo()
