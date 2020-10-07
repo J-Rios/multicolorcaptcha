@@ -56,22 +56,20 @@ Generated Captchas Examples
 
 Monocolor Background Captchas:
 
-![Monocolor Captcha](https://github.com/J-Rios/multicolor-captcha-generator/raw/master/images/Monocolor_Background.png)
-
-
+.. image:: https://github.com/J-Rios/multicolor-captcha-generator/raw/master/images/Monocolor_Background.png
+   :alt: Monocolor Captcha
 
 Multicolor Background Captchas:
 
-![Multicolor Captcha](https://github.com/J-Rios/multicolor-captcha-generator/raw/master/images/Multicolor_Background.png)
-
-
+.. image:: https://github.com/J-Rios/multicolor-captcha-generator/raw/master/images/Multicolor_Background.png
+   :alt: Multicolor Captcha
 
 ASCII Captchas:
 
-![Multicolor Captcha](https://github.com/J-Rios/multicolor-captcha-generator/raw/master/images/Ascii.png)
-
-
+.. image:: https://github.com/J-Rios/multicolor-captcha-generator/raw/master/images/Ascii.png
+   :alt: Multicolor Captcha
 
 Modificable Difficult Level Captchas:
 
-![Multicolor Captcha](https://github.com/J-Rios/multicolor-captcha-generator/raw/master/images/Max_Complex.png)
+.. image:: https://github.com/J-Rios/multicolor-captcha-generator/raw/master/images/Max_Complex.png
+   :alt: Multicolor Captcha
