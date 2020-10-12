@@ -3,17 +3,15 @@
 
 """
 Script:
-    img_captcha_gen.py
+    generator.py
 Description:
     Just an image captcha generator.
 Author:
-    Jose Rios Rubio
+    Jose Miguel Rios Rubio
 Creation date:
     08/09/2018
 Last modified date:
     10/06/2019
-Version:
-    1.1.1
 """
 
 ####################################################################################################
