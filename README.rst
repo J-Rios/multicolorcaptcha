@@ -1,4 +1,4 @@
-multicolor-captcha-generator
+multicolorcaptcha
 ============================
 
 Python random image-captcha generator library.
@@ -8,11 +8,11 @@ Installation
 
 To generate the images of the Captchas, the library uses Pillow module.
 
-1. For Linux systems, it is necessary to install Pillow prerequisites:
+1. For Linux systems, it is necessary to install Pillow prerequisites (also, Pillow and PIL cannot co-exist in the same environment. Before installing Pillow, please uninstall PIL):
 
 .. code-block:: bash
 
-   $ apt-get install libtiff5-dev libjpeg8-dev zlib1g-dev libfreetype6-dev liblcms2-dev libwebp-dev tcl8.6-dev tk8.6-dev python-tk
+   $ apt-get install libtiff5-dev libjpeg8-dev zlib1g-dev libfreetype6-dev liblcms2-dev libwebp-dev tcl8.6-dev tk8.6-dev python3-tk
 
 2. Install the module
 
@@ -56,20 +56,20 @@ Generated Captchas Examples
 
 Monocolor Background Captchas:
 
-.. image:: https://github.com/J-Rios/multicolor-captcha-generator/raw/master/images/Monocolor_Background.png
+.. image:: https://github.com/J-Rios/multicolorcaptcha/raw/master/images/Monocolor_Background.png
    :alt: Monocolor Captcha
 
 Multicolor Background Captchas:
 
-.. image:: https://github.com/J-Rios/multicolor-captcha-generator/raw/master/images/Multicolor_Background.png
+.. image:: https://github.com/J-Rios/multicolorcaptcha/raw/master/images/Multicolor_Background.png
    :alt: Multicolor Captcha
 
 ASCII Captchas:
 
-.. image:: https://github.com/J-Rios/multicolor-captcha-generator/raw/master/images/Ascii.png
+.. image:: https://github.com/J-Rios/multicolorcaptcha/raw/master/images/Ascii.png
    :alt: Multicolor Captcha
 
 Modificable Difficult Level Captchas:
 
-.. image:: https://github.com/J-Rios/multicolor-captcha-generator/raw/master/images/Max_Complex.png
+.. image:: https://github.com/J-Rios/multicolorcaptcha/raw/master/images/Max_Complex.png
    :alt: Multicolor Captcha

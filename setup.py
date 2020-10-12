@@ -15,13 +15,13 @@ setup(
     name='multicolorcaptcha',
     description='Python random image-captcha generator library.',
     long_description=long_description,
-    url='https://github.com/J-Rios/multicolor_captcha_generator',
+    url='https://github.com/J-Rios/multicolorcaptcha',
 
     version=version,
 
-    author='Jose Rios Rubio',
+    author='Jose Miguel Rios Rubio',
     author_email='jrios.github@gmail.com',
-    license='GPL3',
+    license='GPLv3',
 
     classifiers=[
         'Development Status :: 4 - Beta',
