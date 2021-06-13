@@ -43,13 +43,20 @@ API Usage
 
    # Generate a captcha image
    captcha = generator.gen_captcha_image(difficult_level=3)
+   math_captcha = generator.gen_math_captcha_image(difficult_level=2)
 
-   # Get information
+   # Get information of standard captcha
    image = captcha["image"]
    characters = captcha["characters"]
 
-   # Save the image to a file
+   # Get information of math captcha
+   math_image = math_captcha["image"]
+   math_equation_string = math_captcha["equation_str"]
+   math_equation_result = math_captcha["equation_result"]
+
+   # Save the images to files
    image.save("captcha.png", "png")
+   math_image.save("captcha.png", "png")
 
 Generated Captchas Examples
 ---------------------------
@@ -73,3 +80,8 @@ Modificable Difficult Level Captchas:
 
 .. image:: https://github.com/J-Rios/multicolorcaptcha/raw/master/images/Max_Complex.png
    :alt: Multicolor Captcha
+
+Math Equation Captchas:
+
+.. image:: https://github.com/J-Rios/multicolorcaptcha/raw/master/images/Math.png
+   :alt: Math Captcha
