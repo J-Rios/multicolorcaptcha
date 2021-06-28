@@ -279,7 +279,7 @@ class CaptchaGenerator:
         return image
 
 
-    def gen_captcha_char_image(self, character, image_size, lines=2, background_color=None,
+    def gen_captcha_char_image(self, character, image_size, lines=2, background_color=False,
             rotation_limits=(-55, 55)):
         '''Generate an one-char image with a random positioned-rotated character.'''
         # If not background color provided, generate a random one
@@ -295,7 +295,7 @@ class CaptchaGenerator:
         # Create an image of specified size, background color and character
         image = self.create_image_char(image_size, background_color["color"], character, \
                 character_color, character_pos, character_font)
-        # Random rotate the created image between -55º and +55º
+        # Random rotate the created image between -55? and +55?
         image = image.rotate(randint(rotation_limits[0], rotation_limits[1]), \
                 fillcolor=background_color["color"])
         # Add some random lines to image
@@ -393,9 +393,8 @@ class CaptchaGenerator:
         else:
             fourth_size = int(fourth_size) + 1
         self.one_char_image_size = (fourth_size, fourth_size)
-        # Generate a RGB background color if the multicolor is disabled
-        if not multicolor:
-            img_background = self.gen_rand_color()
+        # Generate a RGB background color
+        img_background = self.gen_rand_color()
         # Random select math operator character, colors and position
         possible_chars = "+-"
         if allow_multiplication:
@@ -457,6 +456,6 @@ class CaptchaGenerator:
         generated_captcha = {
             "image": image,
             "equation_str": equation_str,
-            "equation_result": equation_result
+            "equation_result": str(equation_result)
         }
         return generated_captcha
