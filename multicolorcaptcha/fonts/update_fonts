@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+
+# Get directory path of current script
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+
+# Fonts Sources
+FONT_PIXELLARI_SRC="https://github.com/zedseven/Pixellari"
+FONT_FREEFONT_SRC="http://ftp.gnu.org/gnu/freefont/freefont-ttf-20120503.zip"
+FONT_GOOGLE_SRC="https://github.com/google/fonts/archive/main.zip"
+FONT_IBM_SRC="https://github.com/IBM/plex/archive/refs/heads/master.zip"
+
+##############################################################################
+
+# Get Font from Git
+get_font_git()
+{
+    if [ $# -gt 1 ]; then
+        echo "-------------------------------------------------"
+        echo " Obtaining Font ${2}"
+        echo "-------------------------------------------------"
+        git clone $1 $SCRIPT_DIR/tmp
+        if [[ $? != 0 ]]; then
+            echo "Error: Can't get ${1} repository."
+        else
+            rm -rf $SCRIPT_DIR/tmp/.git
+            rm -rf $SCRIPT_DIR/$2
+            mv $SCRIPT_DIR/tmp $SCRIPT_DIR/$2
+        fi
+        echo ""
+    fi
+}
+
+# Get Font from wget and unzip it
+wget_font_unzip()
+{
+    if [ $# -gt 1 ]; then
+        echo "-------------------------------------------------"
+        echo " Obtaining Font ${2}"
+        echo "-------------------------------------------------"
+        wget -O $SCRIPT_DIR/tmp.zip $1
+        if [[ $? != 0 ]]; then
+            echo "Error: Can't wget ${1}."
+        else
+            rm -rf $SCRIPT_DIR/$2
+            mkdir -p $SCRIPT_DIR/$2
+            unzip $SCRIPT_DIR/tmp.zip -d $SCRIPT_DIR/$2
+            rm -f $SCRIPT_DIR/tmp.zip
+            rm -rf $SCRIPT_DIR/$2/.git
+        fi
+        echo ""
+    fi
+}
+
+##############################################################################
+
+# Get Pixellari
+get_font_git $FONT_PIXELLARI_SRC Pixellari
+
+# Get GNU FreeFont
+wget_font_unzip $FONT_FREEFONT_SRC FreeFont
+
+# Get Google Fonts
+#wget_font_unzip $FONT_GOOGLE_SRC GoogleFonts
+
+# Get IBM Plex Fonts
+#wget_font_unzip $FONT_IBM_SRC IBMPlex
+#mkdir -p $SCRIPT_DIR/IBMPlex/Mono
+#mkdir -p $SCRIPT_DIR/IBMPlex/Sans
+#mkdir -p $SCRIPT_DIR/IBMPlex/Serif
+#mv $SCRIPT_DIR/IBMPlex/plex-master/LICENSE.txt $SCRIPT_DIR/IBMPlex/
+#mv $SCRIPT_DIR/IBMPlex/plex-master/IBM-Plex-Mono/fonts/complete/ttf/* $SCRIPT_DIR/IBMPlex/Mono
+#mv mv $SCRIPT_DIR/IBMPlex/plex-master/IBM-Plex-Sans/fonts/complete/ttf/* $SCRIPT_DIR/IBMPlex/Sans
+#mv $SCRIPT_DIR/IBMPlex/plex-master/IBM-Plex-Serif/fonts/complete/ttf/* $SCRIPT_DIR/IBMPlex/Serif
+#rm -rf $SCRIPT_DIR/IBMPlex/plex-master
+
+exit 0
