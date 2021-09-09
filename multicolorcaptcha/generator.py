@@ -17,7 +17,7 @@ Last modified date:
 
 # Modules Imports #
 
-from os import path
+from os import path, walk
 from random import randint, choice
 from PIL import Image, ImageFont, ImageDraw
 
@@ -29,10 +29,7 @@ from PIL import Image, ImageFont, ImageDraw
 SCRIPT_PATH = path.dirname(path.realpath(__file__))
 
 # Fonts directory and list of used fonts files
-FONTS_PATH = SCRIPT_PATH + "/fonts/freefont-20120503"
-l_fonts = ["FreeMono.ttf", "FreeMonoBold.ttf", "FreeMonoOblique.ttf", "FreeSans.ttf", \
-           "FreeSansBold.ttf", "FreeSansOblique.ttf", "FreeSerif.ttf", "FreeSerifBold.ttf", \
-           "FreeSerifItalic.ttf", "FreeMonoBold.ttf"]
+FONTS_PATH = SCRIPT_PATH + "/fonts"
 
 # Captcha with noise (turn it on add delay)
 ADD_NOISE = False
@@ -78,6 +75,19 @@ class CaptchaGenerator:
         font_size_min = FONT_SIZE_RANGE[captcha_size_num][0]
         font_size_max = FONT_SIZE_RANGE[captcha_size_num][1]
         self.font_size_range = (font_size_min, font_size_max)
+        # Get available Fonts files recursively from fonts directories
+        self.l_fonts = []
+        for root, directories, files in walk(FONTS_PATH, topdown=True):
+            for file in files:
+                f_name, f_ext = path.splitext(file)
+                if f_ext == ".ttf":
+                    self.l_fonts.append(path.join(root, file))
+        #print("")
+        #print("Detected fonts to be used:")
+        #print("---------------------------")
+        #for f in self.l_fonts:
+        #    print(f)
+        #print("")
 
 
     def gen_rand_color(self, min_val=0, max_val=255):
@@ -162,10 +172,10 @@ class CaptchaGenerator:
             return False
 
 
-    def gen_rand_font(self, fonts_folder, fonts_list):
+    def gen_rand_font(self, fonts_list):
         '''Pick a random font file path from provided folder and given possible fonts list.'''
         font_num = randint(0, len(fonts_list)-1)
-        font = "{}/{}".format(fonts_folder, fonts_list[font_num])
+        font = fonts_list[font_num]
         return font
 
 
@@ -289,7 +299,7 @@ class CaptchaGenerator:
         character_color = rand_color["color"]
         character_pos = (int(image_size[0]/4), randint(0, int(image_size[0]/4)))
         # Pick a random font with a random size, from the provided list
-        rand_font_path = self.gen_rand_font(FONTS_PATH, l_fonts)
+        rand_font_path = self.gen_rand_font(self.l_fonts)
         character_font = self.gen_rand_size_font(rand_font_path, self.font_size_range[0], \
                 self.font_size_range[1])
         # Create an image of specified size, background color and character
