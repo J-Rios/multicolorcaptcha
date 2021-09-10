@@ -10,6 +10,9 @@ publish:
 
 clean:
 	rm -rf dist/
+	rm -rf build/
+	rm -rf .eggs/
+	rm -rf *.egg-info/
 
 pytest:
 	pytest -xvv
