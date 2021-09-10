@@ -40,7 +40,7 @@ setup(
     ],
 
     package_data={
-        'multicolorcaptcha': ['fonts/freefont-20120503/*', 'version.txt'],
+        'multicolorcaptcha': ['fonts/*', 'version.txt'],
     },
 
     entry_points={
