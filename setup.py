@@ -39,9 +39,7 @@ setup(
         'multicolorcaptcha',
     ],
 
-    package_data={
-        'multicolorcaptcha': ['fonts/*', 'version.txt'],
-    },
+    include_package_data=True,
 
     entry_points={
         'console_scripts': [

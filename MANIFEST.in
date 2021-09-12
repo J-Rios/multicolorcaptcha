@@ -1,0 +1,2 @@
+include multicolorcaptcha/version.txt
+recursive-include multicolorcaptcha/fonts/ *
