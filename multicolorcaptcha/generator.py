@@ -33,19 +33,22 @@ DIFFICULT_LEVELS_VALUES = [(0, 0), (1, 10), (2, 17), (3, 25), (4, 50), (5, 70)]
 
 
 class CaptchaGenerator:
-    """
-    Just and image captcha generator class.
+    """Just and image captcha generator class.
     """
 
-    def __init__(self, captcha_size_num=2):
-        """Constructor"""
+    def __init__(self, captcha_size_num: int = 2) -> None:
+        """Constructor
+        """
+
         # Limit provided captcha size num
         if captcha_size_num < 0:
             captcha_size_num = 0
         elif captcha_size_num >= len(CAPTCHA_SIZE):
             captcha_size_num = len(CAPTCHA_SIZE) - 1
+
         # Get captcha size
         self.captcha_size = CAPTCHA_SIZE[captcha_size_num]
+
         # Determine one char image height
         fourth_size = self.captcha_size[0] / 4
         if fourth_size - int(fourth_size) <= 0.5:
@@ -53,23 +56,19 @@ class CaptchaGenerator:
         else:
             fourth_size = int(fourth_size) + 1
         self.one_char_image_size = (fourth_size, fourth_size)
+
         # Determine font size according to image size
         font_size_min = FONT_SIZE_RANGE[captcha_size_num][0]
         font_size_max = FONT_SIZE_RANGE[captcha_size_num][1]
         self.font_size_range = (font_size_min, font_size_max)
+
         # Get available Fonts files recursively from fonts directories
         self.l_fonts = []
-        for root, directories, files in walk(FONTS_PATH, topdown=True):
+        for root, _, files in walk(FONTS_PATH, topdown=True):
             for file in files:
-                f_name, f_ext = path.splitext(file)
+                _, f_ext = path.splitext(file)
                 if f_ext == ".ttf":
                     self.l_fonts.append(path.join(root, file))
-        #print("")
-        #print("Detected fonts to be used:")
-        #print("---------------------------")
-        #for f in self.l_fonts:
-        #    print(f)
-        #print("")
 
 
     def gen_rand_color(self, min_val=0, max_val=255):
