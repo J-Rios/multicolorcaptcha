@@ -4,8 +4,9 @@
 
 from os import path, walk
 from random import randint, choice
-from typing import List
+from typing import List, Tuple, Union
 from PIL import Image, ImageFont, ImageDraw
+from PIL.ImageFont import FreeTypeFont, _Font
 
 from .models import RGBModal
 
@@ -226,26 +227,56 @@ class CaptchaGenerator:
 
         return fonts_list[randint(0, len(fonts_list) - 1)]
 
+    def gen_rand_size_font(self, font_path: str, min_size: int,
+                           max_size: int) -> FreeTypeFont:
+        """Generate a random size font PIL object from the given font file path.
 
-    def gen_rand_size_font(self, font_path, min_size, max_size):
-        '''Generate a random size font PIL object from the given font file path.'''
+        Parameters
+        ----------
+        font_path : str
+        min_size : int
+        max_size : int
+
+        Returns
+        -------
+        FreeTypeFont
+        """
+
         font_size = randint(min_size, max_size)
         try:
             font = ImageFont.truetype(font_path, font_size)
         except OSError:
             print("Incompatible font for captcha. Using standard arial.ttf")
             font = ImageFont.truetype("arial.ttf", font_size)
+
         return font
 
+    def create_image_char(self, size: Tuple[int, int], background: float,
+                          character: Union[str, bytes], char_color,
+                          char_pos: Tuple[float, float], char_font: _Font
+                          ) -> Image:
+        """Create a PIL image object of specified size and color that
+        has the provided characterin.
 
-    def create_image_char(self, size, background, character, char_color, char_pos, char_font):
-        '''Create a PIL image object of specified size and color that has the provided character \
-        in.'''
+        Parameters
+        ----------
+        size : Tuple[int, int]
+        background : float
+        character : Union[str, bytes]
+        char_color : [type]
+        char_pos : Tuple[float, float]
+        char_font : _Font
+
+        Returns
+        -------
+        Image
+        """
+
         image = Image.new("RGBA", size, background)
         draw = ImageDraw.Draw(image)
         draw.text(char_pos, character, fill=char_color, font=char_font)
-        return image
 
+        return image  # type: ignore
 
     def add_rand_circle_to_image(self, image, min_size, max_size, circle_color="notSet"):
         '''Draw a random circle to a PIL image.'''
@@ -257,7 +288,6 @@ class CaptchaGenerator:
                                                     str(randint(0, 255)))
         draw = ImageDraw.Draw(image)
         draw.ellipse((x, y, x+rad, y+rad), fill=circle_color, outline=circle_color)
-
 
     def add_rand_ellipse_to_image(self, image, w_min, w_max, h_min, h_max, ellipse_color="notSet"):
         '''Draw a random ellipse to a PIL image.'''
