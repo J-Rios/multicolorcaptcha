@@ -14,11 +14,10 @@ pip3 install multicolorcaptcha
 ```
 
 - Try sample captcha
+   - Output to `captchas/`
 ```bash
 multicolorcaptchademo
 ```
-
--- Look at the ``captchas/`` folder.
 
 ## API Usage
 ```py
