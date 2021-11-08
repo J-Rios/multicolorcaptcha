@@ -254,7 +254,7 @@ class CaptchaGenerator:
     def create_image_char(self, size: Tuple[int, int], background: float,
                           character: Union[str, bytes], char_color,
                           char_pos: Tuple[float, float], char_font: _Font
-                          ) -> Image:
+                          ) -> Image.Image:
         """Create a PIL image object of specified size and color that
         has the provided characterin.
 
@@ -276,18 +276,36 @@ class CaptchaGenerator:
         draw = ImageDraw.Draw(image)
         draw.text(char_pos, character, fill=char_color, font=char_font)
 
-        return image  # type: ignore
+        return image
 
-    def add_rand_circle_to_image(self, image, min_size, max_size, circle_color="notSet"):
-        '''Draw a random circle to a PIL image.'''
+    def add_rand_circle_to_image(self, image: Image.Image, min_size: int,
+                                 max_size: int, circle_color: str = None
+                                 ) -> None:
+        """Draw a random circle to a PIL image.
+
+        Parameters
+        ----------
+        image : Image.Image
+        min_size : int
+        max_size : int
+        circle_color : str, optional
+            by default None
+        """
+
         x = randint(0, image.width)
         y = randint(0, image.height)
         rad = randint(min_size, max_size)
-        if circle_color == "notSet":
-            circle_color = "rgb({}, {}, {})".format(str(randint(0, 255)), str(randint(0, 255)), \
-                                                    str(randint(0, 255)))
+        if circle_color is None:
+            circle_color = RGBModal(
+                randint(0, 255), randint(0, 255), randint(0, 255)
+            ).color
+
         draw = ImageDraw.Draw(image)
-        draw.ellipse((x, y, x+rad, y+rad), fill=circle_color, outline=circle_color)
+        draw.ellipse(
+            (x, y, x+rad, y+rad),
+            fill=circle_color,
+            outline=circle_color
+        )
 
     def add_rand_ellipse_to_image(self, image, w_min, w_max, h_min, h_max, ellipse_color="notSet"):
         '''Draw a random ellipse to a PIL image.'''

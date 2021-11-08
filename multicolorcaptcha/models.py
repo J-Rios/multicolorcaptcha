@@ -2,14 +2,16 @@ from dataclasses import dataclass
 from typing import Any
 
 
+class Extended:
+    def __getitem__(self, key: str) -> Any:
+        return getattr(self, key)
+
+
 @dataclass
-class RGBModal:
+class RGBModal(Extended):
     R: int
     G: int
     B: int
-
-    def __getitem__(self, key: str) -> Any:
-        return getattr(self, key)
 
     @property
     def color(self) -> str:
