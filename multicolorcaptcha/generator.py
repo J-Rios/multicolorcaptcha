@@ -464,7 +464,23 @@ class CaptchaGenerator:
                                background_color: RGBModel = None,
                                rotation_limits: Tuple[int, int] = (-55, 55)
                                ) -> CaptchaModel:
-        '''Generate an one-char image with a random positioned-rotated character.'''
+        """Generate an one-char image with a random positioned-rotated character.
+
+        Parameters
+        ----------
+        character : str
+        image_size : Tuple[int, int]
+        lines : int, optional
+            by default 2
+        background_color : RGBModel, optional
+            by default None
+        rotation_limits : Tuple[int, int], optional
+            by default (-55, 55)
+
+        Returns
+        -------
+        CaptchaModel
+        """
 
         # If not background color provided, generate a random one
         if background_color is None:
