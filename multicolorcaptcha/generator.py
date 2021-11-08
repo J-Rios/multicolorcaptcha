@@ -8,7 +8,7 @@ from typing import Any, List, Tuple, Union
 from PIL import Image, ImageFont, ImageDraw
 from PIL.ImageFont import FreeTypeFont
 
-from models import RGBModel, CaptchaModel, CaptchaCharModel
+from models import RGBModel, CaptchaModel, CaptchaCharModel, MathsCaptchaModel
 
 # Constants
 SCRIPT_PATH = path.dirname(path.realpath(__file__))
@@ -623,15 +623,32 @@ class CaptchaGenerator:
         # Return generated image captcha
         return CaptchaModel(image=image, characters=image_characters)
 
-    def gen_math_captcha_image(self, difficult_level=0, multicolor=False,
-            allow_multiplication=False, margin=True):
-        '''Generate a math image captcha.'''
+    def gen_math_captcha_image(self, difficult_level: int = 0,
+                               multicolor: bool = False,
+                               allow_multiplication: bool = False,
+                               margin: bool = True) -> MathsCaptchaModel:
+        """Generate a math image captcha.
+
+        Parameters
+        ----------
+        difficult_level : int, optional
+            by default 0
+        multicolor : bool, optional
+            by default False
+        allow_multiplication : bool, optional
+            by default False
+        margin : bool, optional
+            by default True
+
+        Returns
+        -------
+        MathsCaptchaModel
+        """
+
         # Limit difficult level argument if out of expected range
         if difficult_level > 5:
-            print("INFO: Captcha generation for a higher difficult level than expected.")
-            print("      Using difficult level 5.")
-            print("")
             difficult_level = 5
+
         # Determine one char image height
         fourth_size = self.captcha_size[0] / 5
         if fourth_size - int(fourth_size) <= 0.5:
@@ -639,26 +656,33 @@ class CaptchaGenerator:
         else:
             fourth_size = int(fourth_size) + 1
         self.one_char_image_size = (fourth_size, fourth_size)
+
         # Generate a RGB background color
         img_background = self.gen_rand_color()
+
         # Random select math operator character, colors and position
         possible_chars = "+-"
         if allow_multiplication:
-            #possible_chars = "+-x/" # Division operation commented due could be difficult to humans
+            # possible_chars = "+-x/" # Division operation
+            # commented due could be difficult to humans
             possible_chars = "+-x"
         character = choice(possible_chars)
+
         # Generate operator image
-        captcha = self.gen_captcha_char_image(character, self.one_char_image_size, 0, \
-                img_background, (-5, 5))
+        captcha = self.gen_captcha_char_image(
+            character, self.one_char_image_size, 0, img_background, (-5, 5)
+        )
         img_operator = captcha["image"]
         operation = captcha["character"]
+
         # Generate random equation with non-decimal and positive result value
         eq_num1 = randint(10, 99)
         eq_num2 = randint(10, 99)
         if operation == "+":
             equation_result = eq_num1 + eq_num2
         elif operation == "-":
-            # Shift variable values to get highest value in eq_num1 and get positive value result
+            # Shift variable values to get highest value in eq_num1 and
+            # get positive value result
             if eq_num1 < eq_num2:
                 tmp = eq_num1
                 eq_num1 = eq_num2
@@ -668,40 +692,49 @@ class CaptchaGenerator:
             equation_result = eq_num1 * eq_num2
         else:
             equation_result = eq_num1 + eq_num2
+
         equation_str = str(eq_num1) + str(eq_num2)
-        # Generate equation images with a random char color in contrast to the generated 
+        # Generate equation images with a random char color
+        # in contrast to the generated
         # background, a random font and font size, and random position-rotation
         one_char_images = []
         for char in equation_str:
-            # Generate a RGB background color for each iteration if multicolor enabled
+            # Generate a RGB background color for each iteration
+            # if multicolor enabled
             if multicolor:
                 img_background = self.gen_rand_color()
-            # Generate character image with random color in contrast to background
+            # Generate character image with random color
+            # in contrast to background
             # and a random position for it
-            captcha = self.gen_captcha_char_image(char, self.one_char_image_size, 0, \
-                    img_background)
+            captcha = self.gen_captcha_char_image(
+                char, self.one_char_image_size, 0, img_background
+            )
             # Add the generated image to the list
             one_char_images.append(captcha["image"])
+
         # Join the characters images into one
         equation_str = str(eq_num1) + operation + str(eq_num2)
         one_char_images.insert(2, img_operator)
         image = self.images_join_horizontal(one_char_images)
-        # Add horizontal random lines to full image
-        #for _ in range(0, DIFFICULT_LEVELS_VALUES[difficult_level][0]):
-        #    self.add_rand_horizontal_line_to_image(image, randint(1, 5))
+
         # Add some random circles to the image
         for _ in range(0, DIFFICULT_LEVELS_VALUES[difficult_level][1]):
-            self.add_rand_circle_to_image(image, int(0.05*self.one_char_image_size[0]), \
-                                          int(0.15*self.one_char_image_size[1]))
+            self.add_rand_circle_to_image(
+                image,
+                int(0.05*self.one_char_image_size[0]),
+                int(0.15*self.one_char_image_size[1])
+            )
+
         # Add horizontal margins
         if margin:
             new_image = Image.new('RGBA', self.captcha_size, "rgb(0, 0, 0)")
-            new_image.paste(image, (0, int((self.captcha_size[1]/2) - (image.height/2))))
+            new_image.paste(
+                image, (0, int((self.captcha_size[1]/2) - (image.height/2)))
+            )
             image = new_image
+
         # Return generated image captcha
-        generated_captcha = {
-            "image": image,
-            "equation_str": equation_str,
-            "equation_result": str(equation_result)
-        }
-        return generated_captcha
+        return MathsCaptchaModel(
+            image=image, equation_str=equation_str,
+            equation_result=str(equation_result)
+        )

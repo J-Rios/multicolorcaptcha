@@ -29,3 +29,10 @@ class CaptchaCharModel(__Extended):
 class CaptchaModel(__Extended):
     image: Image.Image
     characters: str
+
+
+@dataclass
+class MathsCaptchaModel(__Extended):
+    image: Image.Image
+    equation_str: str
+    equation_result: str
