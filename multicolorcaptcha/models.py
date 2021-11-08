@@ -20,6 +20,12 @@ class RGBModel(__Extended):
 
 
 @dataclass
-class CaptchaModel(__Extended):
+class CaptchaCharModel(__Extended):
     image: Image.Image
     character: str
+
+
+@dataclass
+class CaptchaModel(__Extended):
+    image: Image.Image
+    characters: str
