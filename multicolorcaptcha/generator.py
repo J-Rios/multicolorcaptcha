@@ -140,7 +140,9 @@ class CaptchaGenerator:
         """
 
         # Get light-dark tonality level of the provided color
-        dark_level = self.color_dark_level(from_color["R"], from_color["G"], from_color["B"])
+        dark_level = self.color_dark_level(
+            from_color["R"], from_color["G"], from_color["B"]
+        )
         # If it is a dark color
         if dark_level >= 1:
             # from_color -> (255 - 384) -> (85 - 128)
@@ -160,9 +162,21 @@ class CaptchaGenerator:
 
         return color
 
-    def color_dark_level(self, r, g, b):
-        '''Determine provided color dark tonality level from -3 to 3 (-3 ultra light, \
-        -2 mid light, -1 low light, 1 low dark, 2 mid dark, 3 high dark).'''
+    def color_dark_level(self, r: int, g: int, b: int) -> int:
+        """Determine provided color dark tonality level from -3 to 3 (-3 ultra light, \
+        -2 mid light, -1 low light, 1 low dark, 2 mid dark, 3 high dark).
+
+        Parameters
+        ----------
+        r : int
+        g : int
+        b : int
+
+        Returns
+        -------
+        int
+        """
+
         dark_level = 0
         if r + g + b < 384:
             dark_level = 1
@@ -179,14 +193,22 @@ class CaptchaGenerator:
                     dark_level = -3
         return dark_level
 
+    def color_is_dark(self, r: int, g: int, b: int) -> bool:
+        """Determine if a provided color has a dark tonality.
 
-    def color_is_dark(self, r, g, b):
-        '''Determine if a provided color has a dark tonality.'''
+        Parameters
+        ----------
+        r : int
+        g : int
+        b : int
+
+        Returns
+        -------
+        bool
+        """
+
         # Medium tonality for RGB in 0-255 range -> (255/2)*3 = 384
-        if r + g + b < 384:
-            return True
-        else:
-            return False
+        return r + g + b < 384
 
 
     def gen_rand_font(self, fonts_list):
