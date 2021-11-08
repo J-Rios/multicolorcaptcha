@@ -360,15 +360,18 @@ class CaptchaGenerator:
             # Line x1 from 0 to line_x0 position - 20% of image width
             line_x1 = randint(0, line_x0 - int(0.2*image.width))
         else:
-            # Line x1 from line_x0 position + 20% of image width to max image width
+            # Line x1 from line_x0 position + 20% of
+            # image width to max image width
             line_x1 = randint(line_x0 + int(0.2*image.width), image.width)
         # If line y0 is in center-to-bottom
         if line_y0 >= image.height/2:
             # Line y1 from 0 to line_y0 position - 20% of image height
             line_y1 = randint(0, line_y0 - int(0.2*image.height))
         else:
-            # Line y1 from line_y0 position + 20% of image height to max image height
+            # Line y1 from line_y0 position + 20% of
+            # image height to max image height
             line_y1 = randint(line_y0 + int(0.2*image.height), image.height)
+
         # Generate a rand line color if not provided
         if line_color is None:
             line_color = RGBModal(
@@ -379,23 +382,36 @@ class CaptchaGenerator:
         draw = ImageDraw.Draw(image)
         draw.line((line_x0, line_y0, line_x1, line_y1), fill=line_color, width=line_width)
 
+    def add_rand_horizontal_line_to_image(self, image: Image.Image,
+                                          line_color: str = None) -> None:
+        """Draw a random line to a PIL image.
 
-    def add_rand_horizontal_line_to_image(self, image, line_width=5, line_color="notSet"):
-        '''Draw a random line to a PIL image.'''
-        # Get line random start position (x between 0 and 20% image width; y with full height range)
+        Parameters
+        ----------
+        image : Image.Image
+        line_color : str, optional
+            by default None
+        """
+
+        # Get line random start position (x between 0 and 20% image width;
+        # y with full height range)
         x0 = randint(0, int(0.2*image.width))
         y0 = randint(0, image.height)
-        # Get line end position (x1 symetric to x0; y random from y0 to image height)
+
+        # Get line end position (x1 symetric to x0;
+        # y random from y0 to image height)
         x1 = image.width - x0
         y1 = randint(y0, image.height)
+
         # Generate a rand line color if not provided
-        if line_color == "notSet":
-            line_color = "rgb({}, {}, {})".format(str(randint(0, 255)), str(randint(0, 255)), \
-                                                str(randint(0, 255)))
+        if line_color is None:
+            line_color = RGBModal(
+                randint(0, 255), randint(0, 255), randint(0, 255)
+            ).color
+
         # Get image draw interface and draw the line on it
         draw = ImageDraw.Draw(image)
         draw.line((x0, y0, x1, y1), fill=line_color, width=5)
-
 
     def add_rand_noise_to_image(self, image, num_pixels):
         '''Add noise pixels to a PIL image.'''
