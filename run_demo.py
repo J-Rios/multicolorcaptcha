@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from generator import CaptchaGenerator
+from multicolorcaptcha import CaptchaGenerator
 from os import path, makedirs
 
 # Path to generate Captchas

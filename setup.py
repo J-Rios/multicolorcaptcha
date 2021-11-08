@@ -1,25 +1,31 @@
 #!/usr/bin/env python3
+import os
+import re
+
 from setuptools import setup
-from os import path
 
-here = path.abspath(path.dirname(__file__))
 
-# Get the long description from the README file
-with open(path.join(here, 'README.rst')) as f:
-    long_description = f.read()
+def get_long_description():
+    with open("README.md", encoding="utf8") as f:
+        return f.read()
 
-with open(path.join(here, 'multicolorcaptcha', 'version.txt')) as f:
-    version = f.read().strip()
+
+def get_variable(variable):
+    with open(os.path.join("multicolorcaptcha", "__init__.py")) as f:
+        return re.search(
+            "{} = ['\"]([^'\"]+)['\"]".format(variable), f.read()
+        ).group(1)  # type: ignore
+
 
 setup(
-    name='multicolorcaptcha',
-    description='Python random image-captcha generator library.',
-    long_description=long_description,
-    url='https://github.com/J-Rios/multicolorcaptcha',
-    version=version,
-    author='Jose Miguel Rios Rubio',
-    author_email='jrios.github@gmail.com',
-    license='GPLv3',
+    name="multicolorcaptcha",
+    description=get_variable("__description__"),
+    long_description=get_long_description(),
+    url=get_variable("__url__"),
+    version=get_variable("__version__"),
+    author=get_variable("__author__"),
+    author_email=get_variable("__author_email__"),
+    license=get_variable("__license__"),
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
@@ -31,11 +37,6 @@ setup(
         'multicolorcaptcha',
     ],
     include_package_data=True,
-    entry_points={
-        'console_scripts': [
-            'multicolorcaptchademo = multicolorcaptcha.main:demo',
-        ],
-    },
     install_requires=[
         'Pillow',
     ],

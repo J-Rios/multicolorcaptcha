@@ -8,7 +8,7 @@ from typing import Any, List, Tuple, Union
 from PIL import Image, ImageFont, ImageDraw
 from PIL.ImageFont import FreeTypeFont
 
-from models import RGBModel, CaptchaModel, CaptchaCharModel, MathsCaptchaModel
+from .models import RGBModel, CaptchaModel, CaptchaCharModel, MathsCaptchaModel
 
 # Constants
 SCRIPT_PATH = path.dirname(path.realpath(__file__))
