@@ -430,16 +430,34 @@ class CaptchaGenerator:
                 pixel_color
             )
 
-    def images_join_horizontal(self, list_images):
-        '''Horizontally join PIL images from list provided and create a single image from them.'''
-        image = Image.new("RGB", (self.one_char_image_size[0]*len(list_images), \
-                                  self.one_char_image_size[1]))
+    def images_join_horizontal(self, list_images: List[Image.Image]
+                               ) -> Image.Image:
+        """Horizontally join PIL images from list provided and
+        create a single image from them.
+
+        Parameters
+        ----------
+        list_images : List[Image.Image]
+
+        Returns
+        -------
+        Image.Image
+        """
+
+        image = Image.new(
+            "RGB",
+            (
+                self.one_char_image_size[0] * len(list_images),
+                self.one_char_image_size[1]
+            )
+        )
+
         x_offset = 0
         for img in list_images:
             image.paste(img, (x_offset, 0))
             x_offset += img.size[0]
-        return image
 
+        return image
 
     def gen_captcha_char_image(self, character, image_size, lines=2, background_color=False,
             rotation_limits=(-55, 55)):
