@@ -1,1 +1,6 @@
-from .generator import CaptchaGenerator  # noqa
+from .generator import CaptchaGenerator
+
+
+__all__ = [
+    "CaptchaGenerator"
+]
