@@ -4,6 +4,7 @@
 
 from os import path, walk
 from random import randint, choice
+from typing import List
 from PIL import Image, ImageFont, ImageDraw
 
 from .models import RGBModal
@@ -210,12 +211,20 @@ class CaptchaGenerator:
         # Medium tonality for RGB in 0-255 range -> (255/2)*3 = 384
         return r + g + b < 384
 
+    def gen_rand_font(self, fonts_list: List[str]) -> str:
+        """Pick a random font file path from provided folder and given possible
+        fonts list.
 
-    def gen_rand_font(self, fonts_list):
-        '''Pick a random font file path from provided folder and given possible fonts list.'''
-        font_num = randint(0, len(fonts_list)-1)
-        font = fonts_list[font_num]
-        return font
+        Parameters
+        ----------
+        fonts_list : List[str]
+
+        Returns
+        -------
+        str
+        """
+
+        return fonts_list[randint(0, len(fonts_list) - 1)]
 
 
     def gen_rand_size_font(self, font_path, min_size, max_size):
