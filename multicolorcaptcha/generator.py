@@ -4,11 +4,11 @@
 
 from os import path, walk
 from random import randint, choice
-from typing import List, Tuple, Union
+from typing import Any, List, Tuple, Union
 from PIL import Image, ImageFont, ImageDraw
-from PIL.ImageFont import FreeTypeFont, _Font
+from PIL.ImageFont import FreeTypeFont
 
-from .models import RGBModal
+from models import RGBModal
 
 # Constants
 SCRIPT_PATH = path.dirname(path.realpath(__file__))
@@ -253,7 +253,7 @@ class CaptchaGenerator:
 
     def create_image_char(self, size: Tuple[int, int], background: float,
                           character: Union[str, bytes], char_color,
-                          char_pos: Tuple[float, float], char_font: _Font
+                          char_pos: Tuple[float, float], char_font: Any
                           ) -> Image.Image:
         """Create a PIL image object of specified size and color that
         has the provided characterin.
@@ -265,7 +265,7 @@ class CaptchaGenerator:
         character : Union[str, bytes]
         char_color : [type]
         char_pos : Tuple[float, float]
-        char_font : _Font
+        char_font : Any
 
         Returns
         -------
