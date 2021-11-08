@@ -380,7 +380,10 @@ class CaptchaGenerator:
 
         # Get image draw interface and draw the line on it
         draw = ImageDraw.Draw(image)
-        draw.line((line_x0, line_y0, line_x1, line_y1), fill=line_color, width=line_width)
+        draw.line(
+            (line_x0, line_y0, line_x1, line_y1),
+            fill=line_color, width=line_width
+        )
 
     def add_rand_horizontal_line_to_image(self, image: Image.Image,
                                           line_color: str = None) -> None:
@@ -413,14 +416,19 @@ class CaptchaGenerator:
         draw = ImageDraw.Draw(image)
         draw.line((x0, y0, x1, y1), fill=line_color, width=5)
 
-    def add_rand_noise_to_image(self, image, num_pixels):
+    def add_rand_noise_to_image(self, image: Image.Image,
+                                num_pixels: int) -> None:
         '''Add noise pixels to a PIL image.'''
         draw = ImageDraw.Draw(image)
         for _ in range(0, num_pixels):
-            pixel_color = "rgb({}, {}, {})".format(str(randint(0, 255)), str(randint(0, 255)), \
-                                                   str(randint(0, 255)))
-            draw.point((randint(0, image.width), randint(0, image.height)), pixel_color)
+            pixel_color = RGBModal(
+                randint(0, 255), randint(0, 255), randint(0, 255)
+            ).color
 
+            draw.point(
+                (randint(0, image.width), randint(0, image.height)),
+                pixel_color
+            )
 
     def images_join_horizontal(self, list_images):
         '''Horizontally join PIL images from list provided and create a single image from them.'''
