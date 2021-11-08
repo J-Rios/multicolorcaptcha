@@ -6,6 +6,8 @@ from os import path, walk
 from random import randint, choice
 from PIL import Image, ImageFont, ImageDraw
 
+from .models import RGBModal
+
 # Constants
 SCRIPT_PATH = path.dirname(path.realpath(__file__))
 FONTS_PATH = SCRIPT_PATH + "/fonts"
@@ -71,7 +73,7 @@ class CaptchaGenerator:
                 if f_ext == ".ttf":
                     self.l_fonts.append(path.join(root, file))
 
-    def gen_rand_color(self, min_val=0, max_val=255) -> dict:
+    def gen_rand_color(self, min_val=0, max_val=255) -> RGBModal:
         """Generate a random color.
 
         Parameters
@@ -83,25 +85,31 @@ class CaptchaGenerator:
 
         Returns
         -------
-        dict
+        RGBModal
         """
 
-        gen_color = {"color": "", "R": -1, "G": -1, "B": -1}
-        gen_color["R"] = randint(min_val, max_val)
-        gen_color["G"] = randint(min_val, max_val)
-        gen_color["B"] = randint(min_val, max_val)
-        gen_color["color"] = "rgb({}, {}, {})".format(
-            str(gen_color["R"]),
-            str(gen_color["G"]),
-            str(gen_color["B"])
+        return RGBModal(
+            R=randint(min_val, max_val),
+            G=randint(min_val, max_val),
+            B=randint(min_val, max_val)
         )
 
-        return gen_color
+    def gen_rand_contrast_color(self, from_color: RGBModal) -> RGBModal:
+        """Generate a random dark or light color for a exact contrast.
 
-    def gen_rand_contrast_color(self, from_color):
-        '''Generate a random dark or light color for a exact contrast.'''
-        dark_level = self.color_dark_level(from_color["R"], from_color["G"], from_color["B"])
-        color = "rgb(0, 0, 0)"
+        Parameters
+        ----------
+        from_color : RGBModal
+
+        Returns
+        -------
+        RGBModal
+        """
+
+        dark_level = self.color_dark_level(
+            from_color["R"], from_color["G"], from_color["B"]
+        )
+
         if dark_level == -3:
             color = self.gen_rand_color(0, 42)
         elif dark_level == -2:
@@ -114,8 +122,10 @@ class CaptchaGenerator:
             color = self.gen_rand_color(168, 210)
         elif dark_level == 3:
             color = self.gen_rand_color(210, 255)
-        return color
+        else:
+            color = RGBModal(0, 0, 0)
 
+        return color
 
     def gen_rand_custom_contrast_color(self, from_color):
         '''Generate a random dark or light color for a custom contrast.'''
