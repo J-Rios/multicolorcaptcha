@@ -127,8 +127,18 @@ class CaptchaGenerator:
 
         return color
 
-    def gen_rand_custom_contrast_color(self, from_color):
-        '''Generate a random dark or light color for a custom contrast.'''
+    def gen_rand_custom_contrast_color(self, from_color: RGBModal) -> RGBModal:
+        """Generate a random dark or light color for a custom contrast.
+
+        Parameters
+        ----------
+        from_color : RGBModal
+
+        Returns
+        -------
+        RGBModal
+        """
+
         # Get light-dark tonality level of the provided color
         dark_level = self.color_dark_level(from_color["R"], from_color["G"], from_color["B"])
         # If it is a dark color
@@ -140,15 +150,15 @@ class CaptchaGenerator:
                 # from_color -> (0 - 128) -> (0 - 42)
                 color = self.gen_rand_color(62, 255)
         # If it is a light color
-        elif dark_level <= -1:
+        else:
             # from_color -> (384 - 640) -> (128 - 213)
             color = self.gen_rand_color(0, 108)
             # For high light
             if dark_level == -3:
                 # from_color -> (640 - 765) -> (213 - 255)
                 color = self.gen_rand_color(0, 193)
-        return color
 
+        return color
 
     def color_dark_level(self, r, g, b):
         '''Determine provided color dark tonality level from -3 to 3 (-3 ultra light, \
