@@ -1,8 +1,9 @@
 from .generator import CaptchaGenerator
-from .models import RGBModal
+from .models import RGBModel, CaptchaModel
 
 
 __all__ = [
     "CaptchaGenerator",
-    "RGBModal"
+    "RGBModel",
+    "CaptchaModel"
 ]

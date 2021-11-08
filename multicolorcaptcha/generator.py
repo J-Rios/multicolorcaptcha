@@ -8,7 +8,7 @@ from typing import Any, List, Tuple, Union
 from PIL import Image, ImageFont, ImageDraw
 from PIL.ImageFont import FreeTypeFont
 
-from models import RGBModal
+from models import RGBModel, CaptchaModel
 
 # Constants
 SCRIPT_PATH = path.dirname(path.realpath(__file__))
@@ -75,7 +75,7 @@ class CaptchaGenerator:
                 if f_ext == ".ttf":
                     self.l_fonts.append(path.join(root, file))
 
-    def gen_rand_color(self, min_val=0, max_val=255) -> RGBModal:
+    def gen_rand_color(self, min_val=0, max_val=255) -> RGBModel:
         """Generate a random color.
 
         Parameters
@@ -87,25 +87,25 @@ class CaptchaGenerator:
 
         Returns
         -------
-        RGBModal
+        RGBModel
         """
 
-        return RGBModal(
+        return RGBModel(
             R=randint(min_val, max_val),
             G=randint(min_val, max_val),
             B=randint(min_val, max_val)
         )
 
-    def gen_rand_contrast_color(self, from_color: RGBModal) -> RGBModal:
+    def gen_rand_contrast_color(self, from_color: RGBModel) -> RGBModel:
         """Generate a random dark or light color for a exact contrast.
 
         Parameters
         ----------
-        from_color : RGBModal
+        from_color : RGBModel
 
         Returns
         -------
-        RGBModal
+        RGBModel
         """
 
         dark_level = self.color_dark_level(
@@ -125,20 +125,20 @@ class CaptchaGenerator:
         elif dark_level == 3:
             color = self.gen_rand_color(210, 255)
         else:
-            color = RGBModal(0, 0, 0)
+            color = RGBModel(0, 0, 0)
 
         return color
 
-    def gen_rand_custom_contrast_color(self, from_color: RGBModal) -> RGBModal:
+    def gen_rand_custom_contrast_color(self, from_color: RGBModel) -> RGBModel:
         """Generate a random dark or light color for a custom contrast.
 
         Parameters
         ----------
-        from_color : RGBModal
+        from_color : RGBModel
 
         Returns
         -------
-        RGBModal
+        RGBModel
         """
 
         # Get light-dark tonality level of the provided color
@@ -296,7 +296,7 @@ class CaptchaGenerator:
         y = randint(0, image.height)
         rad = randint(min_size, max_size)
         if circle_color is None:
-            circle_color = RGBModal(
+            circle_color = RGBModel(
                 randint(0, 255), randint(0, 255), randint(0, 255)
             ).color
 
@@ -328,7 +328,7 @@ class CaptchaGenerator:
         w = randint(w_min, w_max)
         h = randint(h_min, h_max)
         if ellipse_color is None:
-            ellipse_color = RGBModal(
+            ellipse_color = RGBModel(
                 randint(0, 255), randint(0, 255), randint(0, 255)
             ).color
 
@@ -374,7 +374,7 @@ class CaptchaGenerator:
 
         # Generate a rand line color if not provided
         if line_color is None:
-            line_color = RGBModal(
+            line_color = RGBModel(
                 randint(0, 255), randint(0, 255), randint(0, 255)
             ).color
 
@@ -408,7 +408,7 @@ class CaptchaGenerator:
 
         # Generate a rand line color if not provided
         if line_color is None:
-            line_color = RGBModal(
+            line_color = RGBModel(
                 randint(0, 255), randint(0, 255), randint(0, 255)
             ).color
 
@@ -421,7 +421,7 @@ class CaptchaGenerator:
         '''Add noise pixels to a PIL image.'''
         draw = ImageDraw.Draw(image)
         for _ in range(0, num_pixels):
-            pixel_color = RGBModal(
+            pixel_color = RGBModel(
                 randint(0, 255), randint(0, 255), randint(0, 255)
             ).color
 
@@ -459,34 +459,52 @@ class CaptchaGenerator:
 
         return image
 
-    def gen_captcha_char_image(self, character, image_size, lines=2, background_color=False,
-            rotation_limits=(-55, 55)):
+    def gen_captcha_char_image(self, character: str,
+                               image_size: Tuple[int, int], lines: int = 2,
+                               background_color: RGBModel = None,
+                               rotation_limits: Tuple[int, int] = (-55, 55)
+                               ) -> CaptchaModel:
         '''Generate an one-char image with a random positioned-rotated character.'''
+
         # If not background color provided, generate a random one
-        if not background_color:
+        if background_color is None:
             background_color = self.gen_rand_color()
+
         rand_color = self.gen_rand_custom_contrast_color(background_color)
         character_color = rand_color["color"]
-        character_pos = (int(image_size[0]/4), randint(0, int(image_size[0]/4)))
+        character_pos = (
+            int(image_size[0]/4), randint(0, int(image_size[0]/4))
+        )
+
         # Pick a random font with a random size, from the provided list
         rand_font_path = self.gen_rand_font(self.l_fonts)
-        character_font = self.gen_rand_size_font(rand_font_path, self.font_size_range[0], \
-                self.font_size_range[1])
+        character_font = self.gen_rand_size_font(
+            rand_font_path, self.font_size_range[0],
+            self.font_size_range[1]
+        )
+
         # Create an image of specified size, background color and character
-        image = self.create_image_char(image_size, background_color["color"], character, \
-                character_color, character_pos, character_font)
+        image = self.create_image_char(
+            image_size, background_color["color"], character,
+            character_color, character_pos, character_font
+        )
+
         # Random rotate the created image between -55? and +55?
-        image = image.rotate(randint(rotation_limits[0], rotation_limits[1]), \
-                fillcolor=background_color["color"])
+        image = image.rotate(
+            randint(rotation_limits[0], rotation_limits[1]),
+            fillcolor=background_color["color"]
+        )
+
         # Add some random lines to image
         for _ in range(0, lines):
             self.add_rand_line_to_image(image, 3, character_color)
+
         # Add noise pixels to the image
         if ADD_NOISE:
             self.add_rand_noise_to_image(image, 200)
+
         # Return the generated image
-        generated_captcha = {"image": image, "character": character}
-        return generated_captcha
+        return CaptchaModel(image=image, character=character)
 
     ################################################################################################
 
