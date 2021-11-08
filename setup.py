@@ -16,45 +16,32 @@ setup(
     description='Python random image-captcha generator library.',
     long_description=long_description,
     url='https://github.com/J-Rios/multicolorcaptcha',
-
     version=version,
-
     author='Jose Miguel Rios Rubio',
     author_email='jrios.github@gmail.com',
     license='GPLv3',
-
     classifiers=[
         'Development Status :: 4 - Beta',
-
         'Intended Audience :: Developers',
-
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
-
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
-
     keywords='captcha, color',
-
     packages=[
         'multicolorcaptcha',
     ],
-
     include_package_data=True,
-
     entry_points={
         'console_scripts': [
             'multicolorcaptchademo = multicolorcaptcha.main:demo',
         ],
     },
-
     install_requires=[
         'Pillow',
     ],
-
     setup_requires=[
         'pytest-runner',
     ],
-
     tests_require=[
         'pytest',
         'pytest-mock',

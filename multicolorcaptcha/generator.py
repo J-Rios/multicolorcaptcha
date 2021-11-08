@@ -7,7 +7,6 @@ from random import randint, choice
 from PIL import Image, ImageFont, ImageDraw
 
 # Constants
-
 SCRIPT_PATH = path.dirname(path.realpath(__file__))
 FONTS_PATH = SCRIPT_PATH + "/fonts"
 
@@ -86,12 +85,17 @@ class CaptchaGenerator:
         -------
         dict
         """
+
         gen_color = {"color": "", "R": -1, "G": -1, "B": -1}
         gen_color["R"] = randint(min_val, max_val)
         gen_color["G"] = randint(min_val, max_val)
         gen_color["B"] = randint(min_val, max_val)
-        gen_color["color"] = "rgb({}, {}, {})".format(str(gen_color["R"]), str(gen_color["G"]), \
-                                                    str(gen_color["B"]))
+        gen_color["color"] = "rgb({}, {}, {})".format(
+            str(gen_color["R"]),
+            str(gen_color["G"]),
+            str(gen_color["B"])
+        )
+
         return gen_color
 
     def gen_rand_contrast_color(self, from_color):
