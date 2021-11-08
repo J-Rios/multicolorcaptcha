@@ -33,11 +33,13 @@ DIFFICULT_LEVELS_VALUES = [(0, 0), (1, 10), (2, 17), (3, 25), (4, 50), (5, 70)]
 
 
 class CaptchaGenerator:
-    """Just and image captcha generator class.
-    """
-
     def __init__(self, captcha_size_num: int = 2) -> None:
-        """Constructor
+        """Just and image captcha generator class.
+
+        Parameters
+        ----------
+        captcha_size_num : int, optional
+            by default 2
         """
 
         # Limit provided captcha size num
@@ -70,17 +72,27 @@ class CaptchaGenerator:
                 if f_ext == ".ttf":
                     self.l_fonts.append(path.join(root, file))
 
+    def gen_rand_color(self, min_val=0, max_val=255) -> dict:
+        """Generate a random color.
 
-    def gen_rand_color(self, min_val=0, max_val=255):
-        '''Generate a random color.'''
-        gen_color = { "color" : "", "R": -1, "G" : -1, "B": -1 }
+        Parameters
+        ----------
+        min_val : int, optional
+            by default 0
+        max_val : int, optional
+            by default 255
+
+        Returns
+        -------
+        dict
+        """
+        gen_color = {"color": "", "R": -1, "G": -1, "B": -1}
         gen_color["R"] = randint(min_val, max_val)
         gen_color["G"] = randint(min_val, max_val)
         gen_color["B"] = randint(min_val, max_val)
         gen_color["color"] = "rgb({}, {}, {})".format(str(gen_color["R"]), str(gen_color["G"]), \
                                                     str(gen_color["B"]))
         return gen_color
-
 
     def gen_rand_contrast_color(self, from_color):
         '''Generate a random dark or light color for a exact contrast.'''
