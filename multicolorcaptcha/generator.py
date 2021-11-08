@@ -307,21 +307,51 @@ class CaptchaGenerator:
             outline=circle_color
         )
 
-    def add_rand_ellipse_to_image(self, image, w_min, w_max, h_min, h_max, ellipse_color="notSet"):
-        '''Draw a random ellipse to a PIL image.'''
+    def add_rand_ellipse_to_image(self, image: Image.Image, w_min: int,
+                                  w_max: int, h_min: int, h_max: int,
+                                  ellipse_color: str = None) -> None:
+        """Draw a random ellipse to a PIL image.
+
+        Parameters
+        ----------
+        image : Image.Image
+        w_min : int
+        w_max : int
+        h_min : int
+        h_max : int
+        ellipse_color : str, optional
+            by default None
+        """
+
         x = randint(0, image.width)
         y = randint(0, image.height)
         w = randint(w_min, w_max)
         h = randint(h_min, h_max)
-        if ellipse_color == "notSet":
-            ellipse_color = "rgb({}, {}, {})".format(str(randint(0, 255)), str(randint(0, 255)), \
-                                                    str(randint(0, 255)))
+        if ellipse_color is None:
+            ellipse_color = RGBModal(
+                randint(0, 255), randint(0, 255), randint(0, 255)
+            ).color
+
         draw = ImageDraw.Draw(image)
-        draw.ellipse((x, y, x+w, y+h), fill=ellipse_color, outline=ellipse_color)
+        draw.ellipse(
+            (x, y, x+w, y+h),
+            fill=ellipse_color,
+            outline=ellipse_color
+        )
 
+    def add_rand_line_to_image(self, image: Image.Image, line_width: int = 5,
+                               line_color: str = None) -> None:
+        """Draw a random line to a PIL image.
 
-    def add_rand_line_to_image(self, image, line_width=5, line_color="notSet"):
-        '''Draw a random line to a PIL image.'''
+        Parameters
+        ----------
+        image : Image.Image
+        line_width : int, optional
+            by default 5
+        line_color : str, optional
+            by default None
+        """
+
         # Get line random start position
         line_x0 = randint(0, image.width)
         line_y0 = randint(0, image.height)
@@ -340,9 +370,11 @@ class CaptchaGenerator:
             # Line y1 from line_y0 position + 20% of image height to max image height
             line_y1 = randint(line_y0 + int(0.2*image.height), image.height)
         # Generate a rand line color if not provided
-        if line_color == "notSet":
-            line_color = "rgb({}, {}, {})".format(str(randint(0, 255)), str(randint(0, 255)), \
-                                                str(randint(0, 255)))
+        if line_color is None:
+            line_color = RGBModal(
+                randint(0, 255), randint(0, 255), randint(0, 255)
+            ).color
+
         # Get image draw interface and draw the line on it
         draw = ImageDraw.Draw(image)
         draw.line((line_x0, line_y0, line_x1, line_y1), fill=line_color, width=line_width)
