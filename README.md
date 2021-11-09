@@ -13,12 +13,6 @@ sudo apt-get install libtiff5-dev libjpeg8-dev zlib1g-dev libfreetype6-dev liblc
 pip3 install multicolorcaptcha
 ```
 
-- Try sample captcha
-   - Output to `captchas/`
-```bash
-multicolorcaptchademo
-```
-
 ## API Usage
 ```py
 from multicolorcaptcha import CaptchaGenerator
