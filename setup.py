@@ -27,24 +27,24 @@ setup(
     author_email=get_variable("__author_email__"),
     license=get_variable("__license__"),
     classifiers=[
-        'Development Status :: 4 - Beta',
-        'Intended Audience :: Developers',
-        'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
-        'Topic :: Software Development :: Libraries :: Python Modules',
+        "Development Status :: 4 - Beta",
+        "Intended Audience :: Developers",
+        "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+        "Topic :: Software Development :: Libraries :: Python Modules"
     ],
-    keywords='captcha, color',
+    keywords="captcha, color",
     packages=[
-        'multicolorcaptcha',
+        "multicolorcaptcha",
     ],
     include_package_data=True,
     install_requires=[
-        'Pillow',
+        "Pillow",
     ],
     setup_requires=[
-        'pytest-runner',
+        "pytest-runner",
     ],
     tests_require=[
-        'pytest',
-        'pytest-mock',
+        "pytest",
+        "pytest-mock",
     ],
 )

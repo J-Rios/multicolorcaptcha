@@ -1,5 +1,7 @@
-from .generator import CaptchaGenerator
-from .models import RGBModel, CaptchaModel, CaptchaCharModel, MathsCaptchaModel
+from ._generator import CaptchaGenerator
+from ._models import (
+    RGBModel, CaptchaModel, CaptchaCharModel, MathsCaptchaModel
+)
 
 
 __version__ = "1.2.0"
