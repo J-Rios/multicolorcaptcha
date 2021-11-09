@@ -112,18 +112,17 @@ class CaptchaGenerator:
             from_color["R"], from_color["G"], from_color["B"]
         )
 
-        if dark_level == -3:
-            color = self.gen_rand_color(0, 42)
-        elif dark_level == -2:
-            color = self.gen_rand_color(42, 84)
-        elif dark_level == -1:
-            color = self.gen_rand_color(84, 126)
-        elif dark_level == 1:
-            color = self.gen_rand_color(126, 168)
-        elif dark_level == 2:
-            color = self.gen_rand_color(168, 210)
-        elif dark_level == 3:
-            color = self.gen_rand_color(210, 255)
+        levels = {
+            -3: (0, 42),
+            -2: (42, 84),
+            -1: (84, 126),
+            1: (126, 168),
+            2: (168, 210),
+            3: (210, 255)
+        }
+
+        if dark_level in levels:
+            color = self.gen_rand_color(levels[dark_level])
         else:
             color = RGBModel(0, 0, 0)
 
@@ -419,7 +418,14 @@ class CaptchaGenerator:
 
     def add_rand_noise_to_image(self, image: Image.Image,
                                 num_pixels: int) -> None:
-        '''Add noise pixels to a PIL image.'''
+        """Add noise pixels to a PIL image.
+
+        Parameters
+        ----------
+        image : Image.Image
+        num_pixels : int
+        """
+
         draw = ImageDraw.Draw(image)
         for _ in range(0, num_pixels):
             pixel_color = RGBModel(
@@ -613,7 +619,9 @@ class CaptchaGenerator:
             )
         # Add horizontal margins
         if margin:
-            new_image = Image.new('RGBA', self.captcha_size, "rgb(0, 0, 0)")
+            new_image = Image.new(
+                "RGBA", self.captcha_size, RGBModel(0, 0, 0).color
+            )
             new_image.paste(
                 image,
                 (0, int((self.captcha_size[1]/2) - (image.height/2)))
@@ -727,7 +735,9 @@ class CaptchaGenerator:
 
         # Add horizontal margins
         if margin:
-            new_image = Image.new('RGBA', self.captcha_size, "rgb(0, 0, 0)")
+            new_image = Image.new(
+                "RGBA", self.captcha_size, RGBModel(0, 0, 0).color
+            )
             new_image.paste(
                 image, (0, int((self.captcha_size[1]/2) - (image.height/2)))
             )
