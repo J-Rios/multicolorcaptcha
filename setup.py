@@ -20,6 +20,7 @@ def get_variable(variable):
 setup(
     name="multicolorcaptcha",
     description=get_variable("__description__"),
+    long_description_content_type="text/markdown",
     long_description=get_long_description(),
     url=get_variable("__url__"),
     version=get_variable("__version__"),
