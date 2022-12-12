@@ -509,13 +509,15 @@ class CaptchaGenerator:
         # Return the generated image
         return CaptchaCharModel(image=image, character=character)
 
-    def gen_captcha_image(self, difficult_level: int = 2,
+    def gen_captcha_image(self, input: str= "", difficult_level: int = 2,
                           chars_mode: str = "nums", multicolor: bool = False,
                           margin: bool = True) -> CaptchaModel:
         """Generate an image captcha.
 
         Parameters
         ----------
+        input : str, optional
+            by default ""
         difficult_level : int, optional
             by default 2
         chars_mode : str, optional
@@ -529,6 +531,8 @@ class CaptchaGenerator:
         -------
         CaptchaModel
         """
+        if not input.isascii() or len(input) < 4:
+            chars_mode = "nums"
 
         # Limit difficult level argument if out of expected range
         if difficult_level > 5:
@@ -536,7 +540,7 @@ class CaptchaGenerator:
 
         # If invalid chars mode provided, use numbers
         chars_mode = chars_mode.lower()
-        if chars_mode not in ("nums", "hex", "ascii"):
+        if chars_mode not in ("input", "nums", "hex", "ascii"):
             chars_mode = "nums"
 
         # Determine one char image height
@@ -556,9 +560,11 @@ class CaptchaGenerator:
         # background, a random font and font size, and random position-rotation
         one_char_images = []
         image_characters = ""
-        for _ in range(0, 4):
+        for i in range(0, 4):
             # Generate a random character
-            if chars_mode == "nums":
+            if chars_mode == "input":
+                character = input[i]
+            elif chars_mode == "nums":
                 character = str(randint(0, 9))
             elif chars_mode == "hex":
                 characters_availables = "ABCDEF0123456789"
@@ -611,7 +617,8 @@ class CaptchaGenerator:
         # Return generated image captcha
         return CaptchaModel(image=image, characters=image_characters)
 
-    def gen_math_captcha_image(self, difficult_level: int = 0,
+    def gen_math_captcha_image(self, input: tuple[int, int] = (0, 0),
+                               difficult_level: int = 0,
                                multicolor: bool = False,
                                allow_multiplication: bool = False,
                                margin: bool = True) -> MathsCaptchaModel:
@@ -619,6 +626,8 @@ class CaptchaGenerator:
 
         Parameters
         ----------
+        input : tuple[int, int], optional
+            by default (0, 0)
         difficult_level : int, optional
             by default 0
         multicolor : bool, optional
@@ -664,8 +673,12 @@ class CaptchaGenerator:
         operation = captcha["character"]
 
         # Generate random equation with non-decimal and positive result value
-        eq_num1 = randint(10, 99)
-        eq_num2 = randint(10, 99)
+        if 10 <= input[0] <= 99 and 10 <= input[1] <= 99:
+            eq_num1 = input[0]
+            eq_num2 = input[1]
+        else:
+            eq_num1 = randint(10, 99)
+            eq_num2 = randint(10, 99)
         if operation == "+":
             equation_result = eq_num1 + eq_num2
         elif operation == "-":
