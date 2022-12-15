@@ -17,7 +17,8 @@ from ._constants import (
 
 class CaptchaGenerator:
     def __init__(self, captcha_size_num: int = 2) -> None:
-        """Just and image captcha generator class.
+        """
+        Just and image captcha generator class.
 
         Parameters
         ----------
@@ -55,8 +56,10 @@ class CaptchaGenerator:
                 if f_ext == ".ttf":
                     self.l_fonts.append(path.join(root, file))
 
+
     def gen_rand_color(self, min_val=0, max_val=255) -> RGBModel:
-        """Generate a random color.
+        """
+        Generate a random color.
 
         Parameters
         ----------
@@ -69,15 +72,16 @@ class CaptchaGenerator:
         -------
         RGBModel
         """
-
         return RGBModel(
             R=randint(min_val, max_val),
             G=randint(min_val, max_val),
             B=randint(min_val, max_val)
         )
 
+
     def gen_rand_contrast_color(self, from_color: RGBModel) -> RGBModel:
-        """Generate a random dark or light color for a exact contrast.
+        """
+        Generate a random dark or light color for a exact contrast.
 
         Parameters
         ----------
@@ -87,7 +91,6 @@ class CaptchaGenerator:
         -------
         RGBModel
         """
-
         dark_level = self.color_dark_level(
             from_color["R"], from_color["G"], from_color["B"]
         )
@@ -108,8 +111,10 @@ class CaptchaGenerator:
 
         return color
 
+
     def gen_rand_custom_contrast_color(self, from_color: RGBModel) -> RGBModel:
-        """Generate a random dark or light color for a custom contrast.
+        """
+        Generate a random dark or light color for a custom contrast.
 
         Parameters
         ----------
@@ -119,7 +124,6 @@ class CaptchaGenerator:
         -------
         RGBModel
         """
-
         # Get light-dark tonality level of the provided color
         dark_level = self.color_dark_level(
             from_color["R"], from_color["G"], from_color["B"]
@@ -140,12 +144,14 @@ class CaptchaGenerator:
             if dark_level == -3:
                 # from_color -> (640 - 765) -> (213 - 255)
                 color = self.gen_rand_color(0, 193)
-
         return color
 
+
     def color_dark_level(self, r: int, g: int, b: int) -> int:
-        """Determine provided color dark tonality level from -3 to 3 (-3 ultra light, \
-        -2 mid light, -1 low light, 1 low dark, 2 mid dark, 3 high dark).
+        """
+        Determine provided color dark tonality level from -3 to 3
+        (-3 ultra light, -2 mid light, -1 low light, 1 low dark,
+        2 mid dark, 3 high dark).
 
         Parameters
         ----------
@@ -157,7 +163,6 @@ class CaptchaGenerator:
         -------
         int
         """
-
         dark_level = 0
         if r + g + b < 384:
             dark_level = 1
@@ -174,8 +179,10 @@ class CaptchaGenerator:
                     dark_level = -3
         return dark_level
 
+
     def color_is_dark(self, r: int, g: int, b: int) -> bool:
-        """Determine if a provided color has a dark tonality.
+        """
+        Determine if a provided color has a dark tonality.
 
         Parameters
         ----------
@@ -187,12 +194,13 @@ class CaptchaGenerator:
         -------
         bool
         """
-
         # Medium tonality for RGB in 0-255 range -> (255/2)*3 = 384
         return r + g + b < 384
 
+
     def gen_rand_font(self, fonts_list: List[str]) -> str:
-        """Pick a random font file path from provided folder and given possible
+        """
+        Pick a random font file path from provided folder and given possible
         fonts list.
 
         Parameters
@@ -203,12 +211,13 @@ class CaptchaGenerator:
         -------
         str
         """
-
         return fonts_list[randint(0, len(fonts_list) - 1)]
+
 
     def gen_rand_size_font(self, font_path: str, min_size: int,
                            max_size: int) -> FreeTypeFont:
-        """Generate a random size font PIL object from the given font file path.
+        """
+        Generate a random size font PIL object from the given font file path.
 
         Parameters
         ----------
@@ -230,11 +239,13 @@ class CaptchaGenerator:
 
         return font
 
+
     def create_image_char(self, size: Tuple[int, int], background: float,
                           character: Union[str, bytes], char_color,
                           char_pos: Tuple[float, float], char_font: Any
                           ) -> Image.Image:
-        """Create a PIL image object of specified size and color that
+        """
+        Create a PIL image object of specified size and color that
         has the provided characterin.
 
         Parameters
@@ -257,10 +268,12 @@ class CaptchaGenerator:
 
         return image
 
+
     def add_rand_circle_to_image(self, image: Image.Image, min_size: int,
                                  max_size: int, circle_color: str = None
                                  ) -> None:
-        """Draw a random circle to a PIL image.
+        """
+        Draw a random circle to a PIL image.
 
         Parameters
         ----------
@@ -286,10 +299,12 @@ class CaptchaGenerator:
             outline=circle_color
         )
 
+
     def add_rand_ellipse_to_image(self, image: Image.Image, w_min: int,
                                   w_max: int, h_min: int, h_max: int,
                                   ellipse_color: str = None) -> None:
-        """Draw a random ellipse to a PIL image.
+        """
+        Draw a random ellipse to a PIL image.
 
         Parameters
         ----------
@@ -318,9 +333,11 @@ class CaptchaGenerator:
             outline=ellipse_color
         )
 
+
     def add_rand_line_to_image(self, image: Image.Image, line_width: int = 5,
                                line_color: str = None) -> None:
-        """Draw a random line to a PIL image.
+        """
+        Draw a random line to a PIL image.
 
         Parameters
         ----------
@@ -364,10 +381,12 @@ class CaptchaGenerator:
             fill=line_color, width=line_width
         )
 
+
     def add_rand_horizontal_line_to_image(self, image: Image.Image,
                                           line_color: Union[str, int] = None
                                           ) -> None:
-        """Draw a random line to a PIL image.
+        """
+        Draw a random line to a PIL image.
 
         Parameters
         ----------
@@ -396,9 +415,11 @@ class CaptchaGenerator:
         draw = ImageDraw.Draw(image)
         draw.line((x0, y0, x1, y1), fill=line_color, width=5)
 
+
     def add_rand_noise_to_image(self, image: Image.Image,
                                 num_pixels: int) -> None:
-        """Add noise pixels to a PIL image.
+        """
+        Add noise pixels to a PIL image.
 
         Parameters
         ----------
@@ -417,10 +438,12 @@ class CaptchaGenerator:
                 pixel_color
             )
 
+
     def images_join_horizontal(self, list_images: List[Image.Image]
                                ) -> Image.Image:
-        """Horizontally join PIL images from list provided and
-        create a single image from them.
+        """
+        Horizontally join PIL images from list provided and create
+        a single image from them.
 
         Parameters
         ----------
@@ -446,12 +469,15 @@ class CaptchaGenerator:
 
         return image
 
+
     def gen_captcha_char_image(self, character: str,
                                image_size: Tuple[int, int], lines: int = 2,
                                background_color: RGBModel = None,
                                rotation_limits: Tuple[int, int] = (-55, 55)
                                ) -> CaptchaCharModel:
-        """Generate an one-char image with a random positioned-rotated character.
+        """
+        Generate an one-char image with a random positioned-rotated
+        character.
 
         Parameters
         ----------
@@ -509,10 +535,12 @@ class CaptchaGenerator:
         # Return the generated image
         return CaptchaCharModel(image=image, character=character)
 
-    def gen_captcha_image(self, input: str= "", difficult_level: int = 2,
+
+    def gen_captcha_image(self, input: str = "", difficult_level: int = 2,
                           chars_mode: str = "nums", multicolor: bool = False,
                           margin: bool = True) -> CaptchaModel:
-        """Generate an image captcha.
+        """
+        Generate an image captcha.
 
         Parameters
         ----------
@@ -617,12 +645,14 @@ class CaptchaGenerator:
         # Return generated image captcha
         return CaptchaModel(image=image, characters=image_characters)
 
+
     def gen_math_captcha_image(self, input: tuple[int, int] = (0, 0),
                                difficult_level: int = 0,
                                multicolor: bool = False,
                                allow_multiplication: bool = False,
                                margin: bool = True) -> MathsCaptchaModel:
-        """Generate a math image captcha.
+        """
+        Generate a math image captcha.
 
         Parameters
         ----------
