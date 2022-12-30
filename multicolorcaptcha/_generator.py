@@ -2,7 +2,7 @@
 
 from os import path, walk
 from random import randint, choice
-from typing import Any, List, Tuple, Union
+from typing import Optional, Any, List, Tuple, Union
 from PIL import Image, ImageFont, ImageDraw
 from PIL.ImageFont import FreeTypeFont
 
@@ -261,8 +261,8 @@ class CaptchaGenerator:
         return image
 
     def add_rand_circle_to_image(self, image: Image.Image, min_size: int,
-                                 max_size: int, circle_color: str = None
-                                 ) -> None:
+                                 max_size: int,
+                                 circle_color: Optional[str] = None) -> None:
         """
         Draw a random circle to a PIL image.
 
@@ -292,7 +292,7 @@ class CaptchaGenerator:
 
     def add_rand_ellipse_to_image(self, image: Image.Image, w_min: int,
                                   w_max: int, h_min: int, h_max: int,
-                                  ellipse_color: str = None) -> None:
+                                  ellipse_color: Optional[str] = None) -> None:
         """
         Draw a random ellipse to a PIL image.
 
@@ -324,7 +324,7 @@ class CaptchaGenerator:
         )
 
     def add_rand_line_to_image(self, image: Image.Image, line_width: int = 5,
-                               line_color: str = None) -> None:
+                               line_color: Optional[str] = None) -> None:
         """
         Draw a random line to a PIL image.
 
@@ -370,9 +370,9 @@ class CaptchaGenerator:
             fill=line_color, width=line_width
         )
 
-    def add_rand_horizontal_line_to_image(self, image: Image.Image,
-                                          line_color: Union[str, int] = None
-                                          ) -> None:
+    def add_rand_horizontal_line_to_image(
+                self, image: Image.Image,
+                line_color: Optional[Union[str, int]] = None) -> None:
         """
         Draw a random line to a PIL image.
 
@@ -457,7 +457,7 @@ class CaptchaGenerator:
 
     def gen_captcha_char_image(self, character: str,
                                image_size: Tuple[int, int], lines: int = 2,
-                               background_color: RGBModel = None,
+                               background_color: Optional[RGBModel] = None,
                                rotation_limits: Tuple[int, int] = (-55, 55)
                                ) -> CaptchaCharModel:
         """
