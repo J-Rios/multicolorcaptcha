@@ -56,7 +56,6 @@ class CaptchaGenerator:
                 if f_ext == ".ttf":
                     self.l_fonts.append(path.join(root, file))
 
-
     def gen_rand_color(self, min_val=0, max_val=255) -> RGBModel:
         """
         Generate a random color.
@@ -77,7 +76,6 @@ class CaptchaGenerator:
             G=randint(min_val, max_val),
             B=randint(min_val, max_val)
         )
-
 
     def gen_rand_contrast_color(self, from_color: RGBModel) -> RGBModel:
         """
@@ -110,7 +108,6 @@ class CaptchaGenerator:
             color = RGBModel(0, 0, 0)
 
         return color
-
 
     def gen_rand_custom_contrast_color(self, from_color: RGBModel) -> RGBModel:
         """
@@ -146,7 +143,6 @@ class CaptchaGenerator:
                 color = self.gen_rand_color(0, 193)
         return color
 
-
     def color_dark_level(self, r: int, g: int, b: int) -> int:
         """
         Determine provided color dark tonality level from -3 to 3
@@ -179,7 +175,6 @@ class CaptchaGenerator:
                     dark_level = -3
         return dark_level
 
-
     def color_is_dark(self, r: int, g: int, b: int) -> bool:
         """
         Determine if a provided color has a dark tonality.
@@ -197,7 +192,6 @@ class CaptchaGenerator:
         # Medium tonality for RGB in 0-255 range -> (255/2)*3 = 384
         return r + g + b < 384
 
-
     def gen_rand_font(self, fonts_list: List[str]) -> str:
         """
         Pick a random font file path from provided folder and given possible
@@ -212,7 +206,6 @@ class CaptchaGenerator:
         str
         """
         return fonts_list[randint(0, len(fonts_list) - 1)]
-
 
     def gen_rand_size_font(self, font_path: str, min_size: int,
                            max_size: int) -> FreeTypeFont:
@@ -238,7 +231,6 @@ class CaptchaGenerator:
             font = ImageFont.truetype("arial.ttf", font_size)
 
         return font
-
 
     def create_image_char(self, size: Tuple[int, int], background: float,
                           character: Union[str, bytes], char_color,
@@ -267,7 +259,6 @@ class CaptchaGenerator:
         draw.text(char_pos, character, fill=char_color, font=char_font)
 
         return image
-
 
     def add_rand_circle_to_image(self, image: Image.Image, min_size: int,
                                  max_size: int, circle_color: str = None
@@ -298,7 +289,6 @@ class CaptchaGenerator:
             fill=circle_color,
             outline=circle_color
         )
-
 
     def add_rand_ellipse_to_image(self, image: Image.Image, w_min: int,
                                   w_max: int, h_min: int, h_max: int,
@@ -332,7 +322,6 @@ class CaptchaGenerator:
             fill=ellipse_color,
             outline=ellipse_color
         )
-
 
     def add_rand_line_to_image(self, image: Image.Image, line_width: int = 5,
                                line_color: str = None) -> None:
@@ -381,7 +370,6 @@ class CaptchaGenerator:
             fill=line_color, width=line_width
         )
 
-
     def add_rand_horizontal_line_to_image(self, image: Image.Image,
                                           line_color: Union[str, int] = None
                                           ) -> None:
@@ -415,7 +403,6 @@ class CaptchaGenerator:
         draw = ImageDraw.Draw(image)
         draw.line((x0, y0, x1, y1), fill=line_color, width=5)
 
-
     def add_rand_noise_to_image(self, image: Image.Image,
                                 num_pixels: int) -> None:
         """
@@ -437,7 +424,6 @@ class CaptchaGenerator:
                 (randint(0, image.width), randint(0, image.height)),
                 pixel_color
             )
-
 
     def images_join_horizontal(self, list_images: List[Image.Image]
                                ) -> Image.Image:
@@ -468,7 +454,6 @@ class CaptchaGenerator:
             x_offset += img.size[0]
 
         return image
-
 
     def gen_captcha_char_image(self, character: str,
                                image_size: Tuple[int, int], lines: int = 2,
@@ -534,7 +519,6 @@ class CaptchaGenerator:
 
         # Return the generated image
         return CaptchaCharModel(image=image, character=character)
-
 
     def gen_captcha_image(self, input: str = "", difficult_level: int = 2,
                           chars_mode: str = "nums", multicolor: bool = False,
@@ -644,7 +628,6 @@ class CaptchaGenerator:
 
         # Return generated image captcha
         return CaptchaModel(image=image, characters=image_characters)
-
 
     def gen_math_captcha_image(self, input: tuple[int, int] = (0, 0),
                                difficult_level: int = 0,
